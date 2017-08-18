@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>执着的路-that-wang - Rails 5 Controller Tests</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/font.css">
+    <link rel="stylesheet" href="/assets/css/landing.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/assets/css/highlight.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <link rel="canonical" href="http://the-wang.github.io/rails/rails-controller-test/">
+</head>
+
+  <body>
+  <header id="header" class="navbar navbar-fixed-top bg-white box-shadow b-b b-light"  data-spy="affix" data-offset-top="1">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand"><img src="/assets/images/logo.png" class="m-r-sm"><span class="text-muted">Notebook</span></a>
+      <button class="btn btn-link visible-xs" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Home</a></li>
+        <li><a href="/tags/">Tags</a></li>
+        <li><a href="/feed.xml">RSS</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+  <section id="content">
+    <div class="container m-t-lg m-b-lg">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="blog-post">
+          <!-- Begin Post -->
+            <div class="post-item">
+              <div class="caption wrapper-lg">
+                <h2 class="post-title">Rails 5 Controller Tests</h2>
+                <div class="progress progress-xxs m-t-sm">
+                  <div class="progress-bar progress-bar-success" data-toggle="tooltip" style="width: 100%"></div>
+                </div>
+                <div class="post-sum">
+                  <h2 id="controller-tests-不再是-unit-tests">controller tests 不再是 unit tests</h2>
+
+<p>Rails 5 的 <code class="highlighter-rouge">controller tests</code> 现在成了 <code class="highlighter-rouge">integration tests</code>。这意味着好多内部交互的功能都被移除了。如果你过去的项目因为某些原因撸了一大堆 <code class="highlighter-rouge">controller tests</code>，那你会发现有一大堆过去在测试代码里面用的 hacks 技巧都不能再用了。</p>
+
+<h3 id="actioncontrollertestcase-is-deprecated"><code class="highlighter-rouge">ActionController::TestCase</code> is deprecated</h3>
+
+<p>Rails 5 的 <code class="highlighter-rouge">controller tests</code> 继承自 <code class="highlighter-rouge">ActionDispatch::IntegrationTest</code>。</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">ProductsControllerTest</span> <span class="o">&lt;</span> <span class="no">ActionController</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="k">def</span> <span class="nf">test_index_response</span>
+    <span class="c1">#...</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># Rails 5</span>
+<span class="k">class</span> <span class="nc">ProductsControllerTest</span> <span class="o">&lt;</span> <span class="no">ActionDispatch</span><span class="o">::</span><span class="no">IntegrationTest</span>
+  <span class="k">def</span> <span class="nf">test_index</span>
+    <span class="c1">#...</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<h3 id="urls-not-actions-are-required">URLS, not actions, are required.</h3>
+
+<p>Rails 5 要求我们在测试中使用 URL Helper 来指定路由。</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># Rails 4</span>
+<span class="n">get</span> <span class="ss">:index</span>
+<span class="n">get</span> <span class="ss">:index</span><span class="p">,</span> <span class="p">{</span> <span class="ss">id: </span><span class="mi">1</span> <span class="p">}</span>
+
+<span class="c1"># Rails 5</span>
+<span class="n">get</span> <span class="n">root_path</span>
+<span class="n">get</span> <span class="n">posts_path</span><span class="p">(</span><span class="vi">@post</span><span class="p">)</span>
+</code></pre>
+</div>
+
+<h3 id="use-of-keywords-arguments-in-http-request-methods">Use of Keywords arguments in HTTP request methods</h3>
+
+<p>我们需要明确的给出 <code class="highlighter-rouge">params</code> 参数关键字。</p>
+
+<p>Rails 4.x, 我们可以一次传递各种参数，比如： <code class="highlighter-rouge">params</code>, <code class="highlighter-rouge">flash messages</code> 和 <code class="highlighter-rouge">session variables</code>。但是 Rails 5 要求我们必须明确给定参数名称。</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># Rails 4</span>
+<span class="n">get</span> <span class="ss">:show</span><span class="p">,</span> <span class="p">{</span> <span class="ss">id: </span><span class="n">user</span><span class="p">.</span><span class="nf">id</span> <span class="p">},</span> <span class="p">{</span> <span class="ss">notice: </span><span class="s1">'Welcome'</span> <span class="p">},</span> <span class="p">{</span> <span class="ss">admin: </span><span class="n">user</span><span class="p">.</span><span class="nf">admin?</span> <span class="p">}</span>
+
+<span class="c1"># Rails 5</span>
+<span class="n">post</span> <span class="n">posts_path</span><span class="p">,</span> <span class="ss">params: </span><span class="p">{</span> <span class="ss">post: </span><span class="p">{</span> <span class="ss">title: </span><span class="s2">"First post"</span><span class="p">,</span> <span class="ss">body: </span><span class="s2">"This is the body"</span><span class="p">}</span> <span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="no-more-access-to-request">No more access to <code class="highlighter-rouge">request</code></h3>
+
+<p><code class="highlighter-rouge">request</code> 对象被移除。</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># Rails 4</span>
+<span class="n">request</span><span class="p">.</span><span class="nf">env</span><span class="p">[</span><span class="s2">"HTTP_AUTHORIZATION"</span><span class="p">]</span> <span class="o">=</span> <span class="n">something</span><span class="p">.</span><span class="nf">.</span><span class="p">.</span><span class="nf">.</span>
+
+<span class="c1"># Rails 5</span>
+<span class="n">get</span> <span class="n">admin_path</span><span class="p">,</span> <span class="ss">headers: </span><span class="p">{</span><span class="s1">'HTTP_AUTHORIZATION'</span> <span class="o">=&gt;</span> <span class="n">something</span> <span class="p">}</span>
+</code></pre>
+</div>
+
+<h3 id="no-more-access-to-session">No more access to <code class="highlighter-rouge">session</code></h3>
+
+<p>你不能再利用给 <code class="highlighter-rouge">session</code> 赋值的方式实现授权之类的操作了。现在你必须真实的触发登录页面，<a href="https://github.com/rails/rails/issues/23386">DHH 对此的解释</a>。</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">def</span> <span class="nf">sign_in_as</span><span class="p">(</span><span class="nb">name</span><span class="p">)</span>
+  <span class="n">post</span> <span class="n">login_url</span><span class="p">,</span> <span class="ss">params: </span><span class="p">{</span> <span class="ss">sig: </span><span class="n">users</span><span class="p">(</span><span class="nb">name</span><span class="p">).</span><span class="nf">perishable_signature</span> <span class="p">)</span>
+<span class="k">end</span>
+
+<span class="n">setup</span> <span class="p">{</span> <span class="n">sign_in_as</span> <span class="s1">'david'</span> <span class="p">}</span>
+</code></pre>
+</div>
+
+<p>这看起来就像我们过去在 <code class="highlighter-rouge">integration tests</code> 中干的事一样。没错，因为现在 <code class="highlighter-rouge">controller tests</code> 就是 <code class="highlighter-rouge">integration tests</code> 了。没啥可惊喜的，但是为了兼容，你不得不修改你的一大堆测试代码。</p>
+
+<h3 id="no-more-access-to-assigns-and-assert_template">No more access to <code class="highlighter-rouge">assigns</code> and <code class="highlighter-rouge">assert_template</code></h3>
+
+<p>不能再使用 <code class="highlighter-rouge">assigns</code> 来访问控制器中的实例变量，也不能使用 <code class="highlighter-rouge">assert_template</code> 来验证该 <code class="highlighter-rouge">action</code> 渲染的是指定的某个 <code class="highlighter-rouge">template</code>。它们都被移除了。你可以换用 <code class="highlighter-rouge">assert_select</code> 来判断页面中或响应中的节点内容，以验证结果。</p>
+
+<p>原因是这样的，老大们觉得实例变量和渲染哪个模板那是控制器内部实现的细节，新版的 <code class="highlighter-rouge">controller tests</code> 不应该关注这些东西。按照 Rails 核心团队的说法，<code class="highlighter-rouge">controller tests</code> 应该关注的是 <code class="highlighter-rouge">action</code> 的结果（返回的 <code class="highlighter-rouge">cookies</code> 和 HTTP 状态码正确）。</p>
+
+<h2 id="结论">结论</h2>
+
+<p>Rails 中再也没有功能测试 <code class="highlighter-rouge">controller tests</code> 这一说法了，现在它成了集成测试 <code class="highlighter-rouge">integration tests</code>。那以前的 <code class="highlighter-rouge">integration tests</code> 怎么办呢？将来再说。</p>
+
+<h2 id="相关阅读">相关阅读</h2>
+
+<ul>
+  <li><a href="http://blog.napcs.com/2016/07/03/upgrading-rails-5-controller-tests/">Upgrading Rails 5 Controller Tests</a></li>
+  <li><a href="http://blog.bigbinary.com/2016/04/19/changes-to-test-controllers-in-rails-5.html">Changes to test controllers in Rails 5</a></li>
+</ul>
+
+                </div>
+
+                <section class="panel panel-default">
+                  <div class="panel-body">
+                    <a href="https://github.com/the-wang" class="thumb pull-right m-l">
+                      <img src="/assets/images/avatar.jpg" class="img-circle">
+                    </a>
+                    <div class="clear">
+                      <p>
+                        <small class="block text-muted">
+                          如果觉得我的文章对您有用，请在支付宝公益平台找个项目捐点钱。
+
+                          <a href="https://github.com/the-wang" class="text-info">@Victor <i class="icon-twitter"></i></a>
+
+                          <i class="fa fa-clock-o icon-muted"></i> May 15, 2017
+
+                          
+                        </small>
+                      </p>
+                      <a href="https://love.alipay.com/donate/index.htm" class="btn btn-s-md btn-success btn-rounded">奉献爱心</a>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          <!-- End Post -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </body>
+</html>

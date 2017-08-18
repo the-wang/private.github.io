@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>执着的路-that-wang - Mocking in Ruby with Minitest</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/font.css">
+    <link rel="stylesheet" href="/assets/css/landing.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/assets/css/highlight.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <link rel="canonical" href="http://the-wang.github.io/ruby/mocking-in-ruby-with-minitest/">
+</head>
+
+  <body>
+  <header id="header" class="navbar navbar-fixed-top bg-white box-shadow b-b b-light"  data-spy="affix" data-offset-top="1">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand"><img src="/assets/images/logo.png" class="m-r-sm"><span class="text-muted">Notebook</span></a>
+      <button class="btn btn-link visible-xs" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Home</a></li>
+        <li><a href="/tags/">Tags</a></li>
+        <li><a href="/feed.xml">RSS</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+  <section id="content">
+    <div class="container m-t-lg m-b-lg">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="blog-post">
+          <!-- Begin Post -->
+            <div class="post-item">
+              <div class="caption wrapper-lg">
+                <h2 class="post-title">Mocking in Ruby with Minitest</h2>
+                <div class="progress progress-xxs m-t-sm">
+                  <div class="progress-bar progress-bar-success" data-toggle="tooltip" style="width: 100%"></div>
+                </div>
+                <div class="post-sum">
+                  <p>在做单元测试的时候，如果要测试的方法需要引用外部依赖的对象，比如：发送邮件，网络通讯，记录Log, 文件系统之类的。而我们没法控制这些外部依赖的对象。为了解决这个问题，我们需要用到 <code class="highlighter-rouge">Stub</code> 和 <code class="highlighter-rouge">Mock</code> 来模拟这些外部依赖的对象。</p>
+
+<h2 id="基本概念">基本概念</h2>
+
+<h3 id="dummies">Dummies</h3>
+
+<p><code class="highlighter-rouge">dummy</code> 是最简单的概念。当我们在写测试的时候，为了避免 <code class="highlighter-rouge">ArgumentError</code> 错误，需要给方法传递一些并不真实使用的对象，通常都是使用 <code class="highlighter-rouge">Object.new</code> 来模拟。</p>
+
+<h3 id="stub">Stub</h3>
+
+<p><code class="highlighter-rouge">stub</code> 跟 <code class="highlighter-rouge">dummy</code> 很像，但是 <code class="highlighter-rouge">stub</code> 的优势是可以响应方法调用，其实现一般会硬编码一些输入和输出。<code class="highlighter-rouge">stub</code> 存在的意图是为了让测试对象可以正常的执行。</p>
+
+<p><code class="highlighter-rouge">stub</code> 也即“桩”，很早就有这个说法了，主要出现在集成测试的过程中，从上往下的集成时，作为下方程序的替代。作用如其名，就是在需要时，能够发现它存在，即可。就好像点名，“到”即可。</p>
+
+<h3 id="mock">Mock</h3>
+
+<p><code class="highlighter-rouge">mock</code> 除了有 <code class="highlighter-rouge">stub</code> 的功能之外，还可深入的模拟对象之间的交互方式，如：调用了几次、在某种情况下是否会抛出异常。</p>
+
+<p><code class="highlighter-rouge">mock</code>，主要是指某个程序的傀儡，也即一个虚假的程序，可以按照测试者的意愿做出响应，返回被测对象需要得到的信息。也即是要风得风、要雨得雨、要返回什么值就返回什么值。</p>
+
+<h2 id="示例">示例</h2>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">rails</span> <span class="n">g</span> <span class="n">model</span> <span class="n">user</span> <span class="nb">name</span><span class="ss">:string</span>
+<span class="n">rails</span> <span class="n">g</span> <span class="n">model</span> <span class="n">subscription</span> <span class="n">expires_at</span><span class="ss">:date</span> <span class="n">user</span><span class="ss">:references</span>
+</code></pre>
+</div>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_one</span> <span class="ss">:subscription</span>
+<span class="k">end</span>
+
+<span class="c1"># app/services/subscription_service.rb</span>
+<span class="k">class</span> <span class="nc">SubscriptionService</span>
+  <span class="nc">SUBSCRIPTION_LENGTH</span> <span class="o">=</span> <span class="mi">1</span><span class="p">.</span><span class="nf">month</span>
+
+  <span class="k">def</span> <span class="nf">initialize</span><span class="p">(</span><span class="n">user</span><span class="p">)</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="n">user</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">apply</span>
+    <span class="k">if</span> <span class="no">Subscription</span><span class="p">.</span><span class="nf">exists?</span><span class="p">(</span><span class="ss">user_id: </span><span class="vi">@user</span><span class="p">.</span><span class="nf">id</span><span class="p">)</span>
+      <span class="n">extend_subscription</span>
+    <span class="k">else</span>
+      <span class="n">create_subscription</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">create_subscription</span>
+    <span class="n">subscription</span> <span class="o">=</span> <span class="no">Subscription</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span>
+      <span class="ss">user: </span><span class="vi">@user</span><span class="p">,</span>
+      <span class="ss">expires_at: </span><span class="no">SUBSCRIPTION_LENGTH</span><span class="p">.</span><span class="nf">from_now</span>
+    <span class="p">)</span>
+
+    <span class="n">subscription</span><span class="p">.</span><span class="nf">save</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">extend_subscription</span>
+    <span class="n">subscription</span> <span class="o">=</span> <span class="no">Subscription</span><span class="p">.</span><span class="nf">find_by</span> <span class="ss">user_id: </span><span class="vi">@user</span><span class="p">.</span><span class="nf">id</span>
+
+    <span class="n">subscription</span><span class="p">.</span><span class="nf">expires_at</span> <span class="o">=</span> <span class="n">subscription</span><span class="p">.</span><span class="nf">expires_at</span> <span class="o">+</span> <span class="no">SUBSCRIPTION_LENGTH</span>
+    <span class="n">subscription</span><span class="p">.</span><span class="nf">save</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># test/services/subscription_service_test.rb</span>
+<span class="nb">require</span> <span class="s1">'test_helper'</span>
+<span class="k">class</span> <span class="nc">SubscriptionServiceTest</span> <span class="o">&lt;</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="nb">test</span> <span class="s1">'#create_or_extend new subscription'</span> <span class="k">do</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">users</span> <span class="ss">:no_sub</span>
+    <span class="n">subscription_service</span> <span class="o">=</span> <span class="no">SubscriptionService</span><span class="p">.</span><span class="nf">new</span> <span class="n">user</span>
+    <span class="n">assert_difference</span> <span class="s1">'Subscription.count'</span> <span class="k">do</span>
+      <span class="n">assert</span> <span class="n">subscription_service</span><span class="p">.</span><span class="nf">apply</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="nb">test</span> <span class="s1">'#create_or_extend existing subscription'</span> <span class="k">do</span>
+    <span class="n">user</span> <span class="o">=</span> <span class="n">users</span> <span class="ss">:one</span>
+    <span class="n">subscription_service</span> <span class="o">=</span> <span class="no">SubscriptionService</span><span class="p">.</span><span class="nf">new</span> <span class="n">user</span>
+    <span class="n">assert_no_difference</span> <span class="s1">'Subscription.count'</span> <span class="k">do</span>
+      <span class="n">assert</span> <span class="n">subscription_service</span><span class="p">.</span><span class="nf">apply</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<h3 id="stub-1">Stub</h3>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># test/models/user_test.rb</span>
+<span class="nb">require</span> <span class="s1">'test_helper'</span>
+<span class="k">class</span> <span class="nc">UserTest</span> <span class="o">&lt;</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="nb">test</span> <span class="s1">'#apply_subscription'</span> <span class="k">do</span>
+    <span class="n">mock</span> <span class="o">=</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Mock</span><span class="p">.</span><span class="nf">new</span>
+    <span class="k">def</span> <span class="nc">mock</span><span class="o">.</span><span class="nf">apply</span><span class="p">;</span> <span class="kp">true</span><span class="p">;</span> <span class="k">end</span>
+
+    <span class="no">SubscriptionService</span><span class="p">.</span><span class="nf">stub</span> <span class="ss">:new</span><span class="p">,</span> <span class="n">mock</span> <span class="k">do</span>
+      <span class="n">user</span> <span class="o">=</span> <span class="n">users</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+      <span class="n">assert</span> <span class="n">user</span><span class="p">.</span><span class="nf">apply_subscription</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+
+<span class="c1"># app/models/user.rb</span>
+<span class="k">class</span> <span class="nc">User</span> <span class="o">&lt;</span> <span class="no">ApplicationRecord</span>
+  <span class="n">has_one</span> <span class="ss">:subscription</span>
+
+  <span class="k">def</span> <span class="nf">apply_subscription</span>
+    <span class="no">SubscriptionService</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="nb">self</span><span class="p">).</span><span class="nf">apply</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<h3 id="mocking">Mocking</h3>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># test/models/user_test.rb</span>
+
+<span class="nb">require</span> <span class="s1">'test_helper'</span>
+
+<span class="k">class</span> <span class="nc">UserTest</span> <span class="o">&lt;</span> <span class="no">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="nb">test</span> <span class="s1">'#apply_subscription'</span> <span class="k">do</span>
+    <span class="n">mock</span> <span class="o">=</span> <span class="no">Minitest</span><span class="o">::</span><span class="no">Mock</span><span class="p">.</span><span class="nf">new</span>
+    <span class="n">mock</span><span class="p">.</span><span class="nf">expect</span> <span class="ss">:apply</span><span class="p">,</span> <span class="kp">true</span>
+
+    <span class="no">SubscriptionService</span><span class="p">.</span><span class="nf">stub</span> <span class="ss">:new</span><span class="p">,</span> <span class="n">mock</span> <span class="k">do</span>
+      <span class="n">user</span> <span class="o">=</span> <span class="n">users</span><span class="p">(</span><span class="ss">:one</span><span class="p">)</span>
+      <span class="n">assert</span> <span class="n">user</span><span class="p">.</span><span class="nf">apply_subscription</span>
+    <span class="k">end</span>
+
+    <span class="n">assert_mock</span> <span class="n">mock</span> <span class="c1"># New in Minitest 5.9.0</span>
+    <span class="n">assert</span> <span class="n">mock</span><span class="p">.</span><span class="nf">verify</span> <span class="c1"># Old way of verifying mocks</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<h3 id="参考">参考</h3>
+
+<ul>
+  <li><a href="https://gist.github.com/adamsanderson/746155">An example of using MiniTest::Mock</a></li>
+  <li><a href="https://semaphoreci.com/community/tutorials/mocking-in-ruby-with-minitest">Mocking in Ruby with Minitest</a></li>
+  <li><a href="http://ieftimov.com/test-doubles-theory-minitest-rspec">Test Doubles: in theory, in Minitest and in RSpec</a></li>
+  <li><a href="http://blog.plataformatec.com.br/2015/05/nobody-told-me-minitest-was-this-fun/">Nobody told me Minitest was this fun</a></li>
+</ul>
+
+                </div>
+
+                <section class="panel panel-default">
+                  <div class="panel-body">
+                    <a href="https://github.com/the-wang" class="thumb pull-right m-l">
+                      <img src="/assets/images/avatar.jpg" class="img-circle">
+                    </a>
+                    <div class="clear">
+                      <p>
+                        <small class="block text-muted">
+                          如果觉得我的文章对您有用，请在支付宝公益平台找个项目捐点钱。
+
+                          <a href="https://github.com/the-wang" class="text-info">@Victor <i class="icon-twitter"></i></a>
+
+                          <i class="fa fa-clock-o icon-muted"></i> May 12, 2017
+
+                          
+                        </small>
+                      </p>
+                      <a href="https://love.alipay.com/donate/index.htm" class="btn btn-s-md btn-success btn-rounded">奉献爱心</a>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          <!-- End Post -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </body>
+</html>

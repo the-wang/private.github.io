@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>执着的路-that-wang - Redis</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/font.css">
+    <link rel="stylesheet" href="/assets/css/landing.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/assets/css/highlight.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <link rel="canonical" href="http://the-wang.github.io/tool/redis/">
+</head>
+
+  <body>
+  <header id="header" class="navbar navbar-fixed-top bg-white box-shadow b-b b-light"  data-spy="affix" data-offset-top="1">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand"><img src="/assets/images/logo.png" class="m-r-sm"><span class="text-muted">Notebook</span></a>
+      <button class="btn btn-link visible-xs" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Home</a></li>
+        <li><a href="/tags/">Tags</a></li>
+        <li><a href="/feed.xml">RSS</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+  <section id="content">
+    <div class="container m-t-lg m-b-lg">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="blog-post">
+          <!-- Begin Post -->
+            <div class="post-item">
+              <div class="caption wrapper-lg">
+                <h2 class="post-title">Redis</h2>
+                <div class="progress progress-xxs m-t-sm">
+                  <div class="progress-bar progress-bar-success" data-toggle="tooltip" style="width: 100%"></div>
+                </div>
+                <div class="post-sum">
+                  <h2 id="基础">基础</h2>
+
+<ul>
+  <li><strong>Redis</strong> 是一个开源免费的 <code class="highlighter-rouge">key-value</code> 数据库。性能高，丰富的数据类型，所有操作都是原子性的，还支持 <code class="highlighter-rouge">publish/subscribe</code>, 通知, key 过期等等特性。</li>
+</ul>
+
+<h3 id="特点">特点</h3>
+
+<ul>
+  <li>支持数据的持久化，可以将内存中的数据保存在磁盘中，重启的时候可以再次加载进行使用。</li>
+  <li>提供 <code class="highlighter-rouge">list，set，zset，hash</code> 等数据结构的存储。</li>
+  <li>支持数据的备份，即 <code class="highlighter-rouge">master-slave</code> 模式的数据备份。</li>
+</ul>
+
+<h3 id="install">Install</h3>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>brew install redis
+<span class="c"># To have launchd start memcached at login:</span>
+ln -sfv /usr/local/opt/redis/<span class="k">*</span>.plist ~/Library/LaunchAgents
+<span class="c"># Then to load memcached now:</span>
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
+
+<span class="c"># Best way is `brew services`</span>
+brew services start redis
+
+<span class="c"># Start Redis server via “launchctl”.</span>
+launchctl load ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
+<span class="c"># Start Redis server using configuration file.</span>
+redis-server /usr/local/etc/redis.conf
+<span class="c"># Stop Redis on autostart on computer start.</span>
+launchctl unload ~/Library/LaunchAgents/homebrew.mxcl.redis.plist
+<span class="c"># Location of Redis configuration file.</span>
+/usr/local/etc/redis.conf
+<span class="c"># Get Redis package information.</span>
+brew info redis
+<span class="c"># Test if Redis server is running. If it replies “PONG”, then it’s good to go!</span>
+redis-cli ping
+</code></pre>
+</div>
+
+<h3 id="配置">配置</h3>
+
+<p>Redis 的配置文件位于 Redis 安装目录下，文件名为 <code class="highlighter-rouge">redis.conf</code>。你可以通过 CONFIG 命令查看或设置配置项。各配置项的说明可以参考<a href="http://www.redis.net.cn/tutorial/3504.html">Redis 配置</a>。</p>
+
+<p>需要注意的是 Redis 默认不是以守护进程的方式运行，可以通过该配置项修改。</p>
+
+<h3 id="redis-命令">Redis 命令</h3>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>redis-cli
+redis-cli -h host -p port -a password
+INFO <span class="c"># 获取 redis 服务器的统计信息</span>
+PING <span class="c"># 查看服务是否运行</span>
+QUIT <span class="c"># 关闭当前连接</span>
+SELECT index <span class="c"># 切换到指定的数据库</span>
+</code></pre>
+</div>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>SET w3ckey redis
+DEL w3ckey
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">DEL</code> 是一个命令，<code class="highlighter-rouge">w3ckey</code> 是一个键。 如果键被删除成功，命令执行后输出 (integer) 1，否则将输出 (integer) 0</p>
+
+<h2 id="redis-数据类型">Redis 数据类型</h2>
+
+<p>Redis 支持五种数据类型：<code class="highlighter-rouge">string，hash，list，set，zset</code>。</p>
+
+<h3 id="string">String</h3>
+
+<ul>
+  <li>redis 最基本的类型，可以理解成与 Memcached 一样的类型，一个 key 对应一个 value。</li>
+  <li>二进制安全的，可以包含任何数据。比如：jpg图片或者序列化的对象。</li>
+  <li>一个键最大能存储 512MB。</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>SET w3ckey redis
+GET w3ckey
+</code></pre>
+</div>
+
+<h3 id="hash">Hash</h3>
+
+<ul>
+  <li>键值对集合，是 string 类型的 field 和 value 的映射表</li>
+  <li>特别适合用于存储对象</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>HMSET w3ckey name <span class="s2">"redis tutorial"</span> description <span class="s2">"redis basic commands for caching"</span> likes 20 visitors 23000
+HGETALL w3ckey
+</code></pre>
+</div>
+
+<h3 id="list">List</h3>
+
+<ul>
+  <li>列表是简单的字符串列表，按照插入顺序排序。你可以添加一个元素导列表的头部（左边）或者尾部（右边）</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>LPUSH w3ckey redis
+LPUSH w3ckey mongodb
+LRANGE w3ckey 0 10
+</code></pre>
+</div>
+
+<h3 id="set">Set</h3>
+
+<ul>
+  <li>Set 是 string 类型的无序集合</li>
+  <li>集合是通过哈希表实现的，所以添加，删除，查找的复杂度都是 O(1)。</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>SADD w3ckey redis
+SADD w3ckey mongodb
+SADD w3ckey redis
+SMEMBERS w3ckey
+</code></pre>
+</div>
+
+<h3 id="zset">zset</h3>
+
+<ul>
+  <li>zset 和 set 一样也是 string 类型元素的集合，且不允许重复的成员。</li>
+  <li>不同的是每个元素都会关联一个 double 类型的分数。redis 通过分数来为集合中的成员进行从小到大的排序。</li>
+  <li>zset 的成员是唯一的，但分数 score 却可以重复。</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>ZADD w3ckey 1 redis
+ZADD w3ckey 2 mongodb
+ZADD w3ckey 3 mysql
+ZADD w3ckey 3 mysql
+ZRANGE w3ckey 0 10 WITHSCORES
+</code></pre>
+</div>
+
+<h3 id="hyperloglog">HyperLogLog</h3>
+
+<ul>
+  <li>HyperLogLog 是用来做基数统计的算法，在数学上，基数是集合论中刻画任意集合大小的一个概念。</li>
+  <li>HyperLogLog 的优点是，在输入元素的数量或者体积非常非常大时，计算基数所需的空间总是固定的、并且是很小的。</li>
+  <li>因为 HyperLogLog 只会根据输入元素来计算基数，而不会储存输入元素本身，所以 HyperLogLog 不能像集合那样，返回输入的各个元素。</li>
+</ul>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>PFADD w3ckey <span class="s2">"redis"</span>
+PFADD w3ckey <span class="s2">"mongodb"</span>
+PFADD w3ckey <span class="s2">"mysql"</span>
+PFCOUNT w3ckey
+</code></pre>
+</div>
+
+<h2 id="高级">高级</h2>
+
+<h3 id="发布订阅">发布订阅</h3>
+
+<p>创建了订阅频道名为 redisChat:</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>SUBSCRIBE redisChat
+</code></pre>
+</div>
+
+<p>新打开一个 redis 客户端，在同一个频道 redisChat 发布两次消息，订阅者就能接收到消息。</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>PUBLISH redisChat <span class="s2">"Redis is a great caching technique"</span>
+PUBLISH redisChat <span class="s2">"Learn redis by w3cschool.cc"</span>
+</code></pre>
+</div>
+
+<h3 id="事务">事务</h3>
+
+<ul>
+  <li>事务是一个单独的隔离操作：事务中的所有命令都会序列化、按顺序地执行。</li>
+  <li>事务在执行的过程中，不会被其他客户端发送来的命令请求所打断。</li>
+  <li>事务是一个原子操作：事务中的命令要么全部被执行，要么全部都不执行。</li>
+</ul>
+
+<p>一个事务从开始到执行会经历以下三个阶段：开始事务 -&gt; 命令入队 -&gt; 执行事务。</p>
+
+<p>以下是一个事务的例子， 它先以 MULTI 开始一个事务， 然后将多个命令入队到事务中， 最后由 EXEC 命令触发事务， 一并执行事务中的所有命令：</p>
+
+<div class="language-bash highlighter-rouge"><pre class="highlight"><code>MULTI
+SET book-name <span class="s2">"Mastering C++ in 21 days"</span>
+GET book-name
+SADD tag <span class="s2">"C++"</span> <span class="s2">"Programming"</span> <span class="s2">"Mastering Series"</span>
+SMEMBERS tag
+EXEC
+</code></pre>
+</div>
+
+<h3 id="管道技术">管道技术</h3>
+
+<p>通常情况下一个请求会遵循以下步骤：</p>
+
+<ol>
+  <li>客户端向服务端发送一个查询请求，并监听Socket返回，通常是以阻塞模式，等待服务端响应。</li>
+  <li>服务端处理命令，并将结果返回给客户端。</li>
+</ol>
+
+<p>Redis 管道技术可以在服务端未响应时，客户端可以继续向服务端发送请求，并最终一次性读取所有服务端的响应。</p>
+
+<p>管道技术最显著的优势是提高了 Redis 服务的性能。</p>
+
+<p>Redis 的 Ruby 客户端，支持管道技术特性。</p>
+
+<h2 id="其它">其它</h2>
+
+<ul>
+  <li><a href="http://www.redis.net.cn/tutorial/3519.html">备份与恢复</a></li>
+  <li><a href="http://www.redis.net.cn/tutorial/3520.html">安全</a></li>
+  <li><a href="http://www.redis.net.cn/tutorial/3524.html">分区</a></li>
+</ul>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+  <li><a href="http://www.redis.net.cn/tutorial/3518.html">Redis 服务器命令</a></li>
+</ul>
+
+                </div>
+
+                <section class="panel panel-default">
+                  <div class="panel-body">
+                    <a href="https://github.com/the-wang" class="thumb pull-right m-l">
+                      <img src="/assets/images/avatar.jpg" class="img-circle">
+                    </a>
+                    <div class="clear">
+                      <p>
+                        <small class="block text-muted">
+                          如果觉得我的文章对您有用，请在支付宝公益平台找个项目捐点钱。
+
+                          <a href="https://github.com/the-wang" class="text-info">@Victor <i class="icon-twitter"></i></a>
+
+                          <i class="fa fa-clock-o icon-muted"></i> Jun 13, 2017
+
+                          
+                        </small>
+                      </p>
+                      <a href="https://love.alipay.com/donate/index.htm" class="btn btn-s-md btn-success btn-rounded">奉献爱心</a>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          <!-- End Post -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </body>
+</html>

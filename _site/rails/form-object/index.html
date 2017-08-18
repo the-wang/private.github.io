@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>执着的路-that-wang - Form Object</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/font.css">
+    <link rel="stylesheet" href="/assets/css/landing.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/assets/css/highlight.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <link rel="canonical" href="http://the-wang.github.io/rails/form-object/">
+</head>
+
+  <body>
+  <header id="header" class="navbar navbar-fixed-top bg-white box-shadow b-b b-light"  data-spy="affix" data-offset-top="1">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand"><img src="/assets/images/logo.png" class="m-r-sm"><span class="text-muted">Notebook</span></a>
+      <button class="btn btn-link visible-xs" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Home</a></li>
+        <li><a href="/tags/">Tags</a></li>
+        <li><a href="/feed.xml">RSS</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+  <section id="content">
+    <div class="container m-t-lg m-b-lg">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="blog-post">
+          <!-- Begin Post -->
+            <div class="post-item">
+              <div class="caption wrapper-lg">
+                <h2 class="post-title">Form Object</h2>
+                <div class="progress progress-xxs m-t-sm">
+                  <div class="progress-bar progress-bar-success" data-toggle="tooltip" style="width: 100%"></div>
+                </div>
+                <div class="post-sum">
+                  <h3 id="什么是-form-object">什么是 Form Object</h3>
+
+<p>封装了一个表单对象的 Ruby 类。</p>
+
+<h3 id="何时使用-form-object">何时使用 Form Object</h3>
+
+<ul>
+  <li>需要在一个表单中更新多个 ActiveRecord 模型，这比使用 <code class="highlighter-rouge">accepts_nested_attributes_for</code> 要好的多。</li>
+  <li>提交的数据不需要持久化。</li>
+  <li>创建一个没有数据库模型支持的表单。</li>
+</ul>
+
+<p>比如修改密码，找回密码，登录，注册之类的表单。而根据复杂度不同，可能这些 From Object 又会去调用 Service Object。</p>
+
+<h3 id="form-object-和-service-object-的区别">Form Object 和 Service Object 的区别</h3>
+
+<p>代码和功能上没啥区别，只有在抽象哲学层面有点不同。Form Object 是抽象出来提供给 HTML 表单用的。</p>
+
+<h3 id="例子">例子</h3>
+
+<p>下面是一个正常的例子。</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Signup</span>
+  <span class="kp">include</span> <span class="no">Virtus</span>
+
+  <span class="kp">extend</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Naming</span>
+  <span class="kp">include</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Conversion</span>
+  <span class="kp">include</span> <span class="no">ActiveModel</span><span class="o">::</span><span class="no">Validations</span>
+
+  <span class="kp">attr_reader</span> <span class="ss">:user</span>
+  <span class="kp">attr_reader</span> <span class="ss">:company</span>
+
+  <span class="n">attribute</span> <span class="ss">:name</span><span class="p">,</span> <span class="no">String</span>
+  <span class="n">attribute</span> <span class="ss">:company_name</span><span class="p">,</span> <span class="no">String</span>
+  <span class="n">attribute</span> <span class="ss">:email</span><span class="p">,</span> <span class="no">String</span>
+
+  <span class="n">validates</span> <span class="ss">:email</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+  <span class="c1"># … more validations …</span>
+
+  <span class="c1"># Forms are never themselves persisted</span>
+  <span class="k">def</span> <span class="nf">persisted?</span>
+    <span class="kp">false</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">save</span>
+    <span class="k">if</span> <span class="n">valid?</span>
+      <span class="n">persist!</span>
+      <span class="kp">true</span>
+    <span class="k">else</span>
+      <span class="kp">false</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+<span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">persist!</span>
+    <span class="vi">@company</span> <span class="o">=</span> <span class="no">Company</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">name: </span><span class="n">company_name</span><span class="p">)</span>
+    <span class="vi">@user</span> <span class="o">=</span> <span class="vi">@company</span><span class="p">.</span><span class="nf">users</span><span class="p">.</span><span class="nf">create!</span><span class="p">(</span><span class="ss">name: </span><span class="nb">name</span><span class="p">,</span> <span class="ss">email: </span><span class="n">email</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">SignupsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="k">def</span> <span class="nf">create</span>
+    <span class="vi">@signup</span> <span class="o">=</span> <span class="no">Signup</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:signup</span><span class="p">])</span>
+
+    <span class="k">if</span> <span class="vi">@signup</span><span class="p">.</span><span class="nf">save</span>
+      <span class="n">redirect_to</span> <span class="n">dashboard_path</span>
+    <span class="k">else</span>
+      <span class="n">render</span> <span class="s2">"new"</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>如果表单中的 <code class="highlighter-rouge">persist!</code> 逻辑太复杂，您可以将此方法与 <code class="highlighter-rouge">Service Object</code> 组合。由于 validation 的逻辑通常是关联上下文的，因此可以在 <code class="highlighter-rouge">Form Object</code> 或 <code class="highlighter-rouge">Service Object</code> 中进行定义，而不需要在 ActiveRecord model 中定义 validate。</p>
+
+<p>但是这并不意味着，model 里面一个验证都没有。应该把核心的验证逻辑放在 model 中。比如 <code class="highlighter-rouge">User</code> 模型中应该保留 <code class="highlighter-rouge">email</code> 唯一性的验证。</p>
+
+<h2 id="form-object-with-active_type">Form Object with active_type</h2>
+
+<ul>
+  <li>Let your form inherit from ApplicationForm</li>
+  <li>Put your forms in <code class="highlighter-rouge">app/forms/</code></li>
+  <li>文件以 form 结尾并能描述出功能。例如：<code class="highlighter-rouge">app/forms/admins/change_password_form.rb</code></li>
+  <li>initialize always requires a model that the form represents.</li>
+  <li><code class="highlighter-rouge">#sync</code> writes form data back to the model and nested models. This will only use setter methods on the model(s).</li>
+</ul>
+
+<h3 id="例子-1">例子</h3>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># app/forms/application_form.rb</span>
+<span class="k">class</span> <span class="nc">ApplicationForm</span> <span class="o">&lt;</span> <span class="no">ActiveType</span><span class="o">::</span><span class="no">Object</span>
+  <span class="nb">self</span><span class="p">.</span><span class="nf">abstract_class</span> <span class="o">=</span> <span class="kp">true</span>
+
+  <span class="n">attribute</span> <span class="ss">:form_object</span>
+
+  <span class="n">validates</span> <span class="ss">:form_object</span><span class="p">,</span> <span class="ss">presence: </span><span class="kp">true</span>
+  <span class="n">validate</span> <span class="ss">:verify_form_object_class_correct</span>
+
+  <span class="n">after_save</span> <span class="ss">:sync</span>
+
+  <span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">sync</span>
+    <span class="k">raise</span> <span class="no">NotImplementedError</span><span class="p">,</span> <span class="s1">'Must be implemented by subtypes.'</span>
+  <span class="k">end</span>
+
+  <span class="c1"># NOTE: can implemented by subtypes.</span>
+  <span class="k">def</span> <span class="nf">form_object_class</span>
+    <span class="nb">self</span><span class="p">.</span><span class="nf">class</span><span class="p">.</span><span class="nf">to_s</span><span class="p">[</span><span class="sr">/\A([^:]+)/</span><span class="p">,</span> <span class="mi">1</span><span class="p">].</span><span class="nf">singularize</span><span class="p">.</span><span class="nf">constantize</span>
+  <span class="k">rescue</span>
+    <span class="k">raise</span> <span class="s2">"Could not determine form class from </span><span class="si">#{</span><span class="nb">self</span><span class="p">.</span><span class="nf">class</span><span class="si">}</span><span class="s2">."</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">verify_form_object_class_correct</span>
+    <span class="n">errors</span><span class="p">.</span><span class="nf">add</span> <span class="ss">:base</span><span class="p">,</span> <span class="ss">:form_object_class_incorrect</span> <span class="k">unless</span> <span class="n">form_object</span><span class="p">.</span><span class="nf">is_a?</span> <span class="n">form_object_class</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># app/forms/admins/password_form.rb</span>
+<span class="k">class</span> <span class="nc">Admins</span><span class="o">::</span><span class="no">PasswordForm</span> <span class="o">&lt;</span> <span class="no">ApplicationForm</span>
+  <span class="n">attribute</span> <span class="ss">:password</span>
+  <span class="n">attribute</span> <span class="ss">:password_confirmation</span>
+
+  <span class="n">validates</span> <span class="ss">:password</span><span class="p">,</span> <span class="ss">confirmation: </span><span class="kp">true</span>
+
+  <span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">sync</span>
+    <span class="n">form_object</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="ss">password: </span><span class="n">password</span><span class="p">)</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="k">class</span> <span class="nc">Admins</span><span class="o">::</span><span class="no">PasswordsController</span> <span class="o">&lt;</span> <span class="no">ApplicationController</span>
+  <span class="n">before_action</span> <span class="ss">:load_admin</span><span class="p">,</span> <span class="ss">:build_password_form</span>
+
+  <span class="k">def</span> <span class="nf">update</span>
+    <span class="k">if</span> <span class="vi">@password_form</span><span class="p">.</span><span class="nf">save</span>
+      <span class="n">redirect_to</span> <span class="n">admins_path</span><span class="p">,</span> <span class="ss">notice: </span><span class="s1">'Admin password was successfully updated.'</span>
+    <span class="k">else</span>
+      <span class="n">render</span> <span class="ss">:edit</span>
+    <span class="k">end</span>
+  <span class="k">end</span>
+
+  <span class="kp">private</span>
+
+  <span class="k">def</span> <span class="nf">load_admin</span>
+    <span class="vi">@admin</span> <span class="o">=</span> <span class="no">Admin</span><span class="p">.</span><span class="nf">find</span><span class="p">(</span><span class="n">params</span><span class="p">[</span><span class="ss">:admin_id</span><span class="p">])</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">build_password_form</span>
+    <span class="vi">@password_form</span> <span class="o">=</span> <span class="no">Admins</span><span class="o">::</span><span class="no">PasswordForm</span><span class="p">.</span><span class="nf">new</span><span class="p">(</span><span class="ss">form_object: </span><span class="vi">@admin</span><span class="p">)</span>
+    <span class="vi">@password_form</span><span class="p">.</span><span class="nf">attributes</span> <span class="o">=</span> <span class="n">form_params</span>
+  <span class="k">end</span>
+
+  <span class="k">def</span> <span class="nf">form_params</span>
+    <span class="n">form_params</span> <span class="o">=</span> <span class="n">params</span><span class="p">[</span><span class="ss">:admins_password_form</span><span class="p">]</span>
+    <span class="n">form_params</span> <span class="p">?</span> <span class="n">form_params</span><span class="p">.</span><span class="nf">permit</span><span class="p">(</span><span class="ss">:password</span><span class="p">,</span> <span class="ss">:password_confirmation</span><span class="p">)</span> <span class="p">:</span> <span class="p">{}</span>
+  <span class="k">end</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+  <li><a href="http://railscasts.com/episodes/416-form-objects">#416 Form Objects pro</a></li>
+  <li><a href="http://cucumbersome.net/2016/09/06/rails-form-objects-with-dry-rb.html">Rails Form Objects With dry-rb</a></li>
+  <li><a href="http://stratus3d.com/blog/2015/04/04/extensible-rails-4-form-object-design/">Extensible Rails 4 Form Object Design</a></li>
+  <li><a href="https://github.com/trailblazer/reform">Reform gem</a></li>
+  <li><a href="https://github.com/timcraft/formeze">formeze gem</a></li>
+</ul>
+
+                </div>
+
+                <section class="panel panel-default">
+                  <div class="panel-body">
+                    <a href="https://github.com/the-wang" class="thumb pull-right m-l">
+                      <img src="/assets/images/avatar.jpg" class="img-circle">
+                    </a>
+                    <div class="clear">
+                      <p>
+                        <small class="block text-muted">
+                          如果觉得我的文章对您有用，请在支付宝公益平台找个项目捐点钱。
+
+                          <a href="https://github.com/the-wang" class="text-info">@Victor <i class="icon-twitter"></i></a>
+
+                          <i class="fa fa-clock-o icon-muted"></i> Jun 11, 2017
+
+                          
+                        </small>
+                      </p>
+                      <a href="https://love.alipay.com/donate/index.htm" class="btn btn-s-md btn-success btn-rounded">奉献爱心</a>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          <!-- End Post -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </body>
+</html>

@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>执着的路-that-wang - Best way to set a header to all tests using MiniTest</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/font.css">
+    <link rel="stylesheet" href="/assets/css/landing.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/assets/css/highlight.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <link rel="canonical" href="http://the-wang.github.io/rails/set-request-header-in-minitest/">
+</head>
+
+  <body>
+  <header id="header" class="navbar navbar-fixed-top bg-white box-shadow b-b b-light"  data-spy="affix" data-offset-top="1">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand"><img src="/assets/images/logo.png" class="m-r-sm"><span class="text-muted">Notebook</span></a>
+      <button class="btn btn-link visible-xs" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Home</a></li>
+        <li><a href="/tags/">Tags</a></li>
+        <li><a href="/feed.xml">RSS</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+  <section id="content">
+    <div class="container m-t-lg m-b-lg">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="blog-post">
+          <!-- Begin Post -->
+            <div class="post-item">
+              <div class="caption wrapper-lg">
+                <h2 class="post-title">Best way to set a header to all tests using MiniTest</h2>
+                <div class="progress progress-xxs m-t-sm">
+                  <div class="progress-bar progress-bar-success" data-toggle="tooltip" style="width: 100%"></div>
+                </div>
+                <div class="post-sum">
+                  <p>在使用 Rails 构件 API 应用的时候，通常会把用户的 token 放在 <code class="highlighter-rouge">request.header</code> 中。在测试时候，我们可以通过下面的方式，给所有的 <code class="highlighter-rouge">controller test</code> 文件都加上 token</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># test/lib/custom_header_setup.rb</span>
+<span class="k">module</span> <span class="nn">CustomHeaderSetup</span>                                                       
+  <span class="k">def</span> <span class="nf">before_setup</span>
+    <span class="k">super</span>
+    <span class="vi">@request</span><span class="p">.</span><span class="nf">headers</span><span class="p">[</span><span class="s1">'Custom-Header'</span><span class="p">]</span> <span class="o">=</span> <span class="s1">'Custom Value'</span>
+  <span class="k">end</span>
+  <span class="no">ActionController</span><span class="o">::</span><span class="no">TestCase</span><span class="p">.</span><span class="nf">send</span><span class="p">(</span><span class="ss">:include</span><span class="p">,</span> <span class="nb">self</span><span class="p">)</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p><code class="highlighter-rouge">test/test_helper.rb</code> 引入该文件：</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="nb">require</span> <span class="no">File</span><span class="p">.</span><span class="nf">expand_path</span><span class="p">(</span><span class="s1">'../../config/environment'</span><span class="p">,</span> <span class="kp">__FILE__</span><span class="p">)</span>
+<span class="nb">require</span> <span class="s1">'rails/test_help'</span>
+<span class="nb">require</span> <span class="s1">'support/custom_header_setup'</span>
+
+<span class="k">class</span> <span class="nc">ActiveSupport</span><span class="o">::</span><span class="no">TestCase</span>
+  <span class="c1"># Setup all fixtures in test/fixtures/*.yml for all tests in alphabetical order.</span>
+  <span class="n">fixtures</span> <span class="ss">:all</span>
+
+  <span class="c1"># Add more helper methods to be used by all tests here...</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>问题来了，Rails 5 的功能测试已经不再继承 <code class="highlighter-rouge">ActionController::TestCase</code>，而改为继承 <code class="highlighter-rouge">ActionDispatch::IntegrationTest</code>。并且取消了 <code class="highlighter-rouge">@request</code> 变量，我们需要用下面的方式来设置 header。</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">get</span> <span class="n">admin_path</span><span class="p">,</span> <span class="ss">headers: </span><span class="p">{</span><span class="s1">'HTTP_AUTHORIZATION'</span> <span class="o">=&gt;</span> <span class="n">something</span> <span class="p">}</span>
+</code></pre>
+</div>
+
+                </div>
+
+                <section class="panel panel-default">
+                  <div class="panel-body">
+                    <a href="https://github.com/the-wang" class="thumb pull-right m-l">
+                      <img src="/assets/images/avatar.jpg" class="img-circle">
+                    </a>
+                    <div class="clear">
+                      <p>
+                        <small class="block text-muted">
+                          如果觉得我的文章对您有用，请在支付宝公益平台找个项目捐点钱。
+
+                          <a href="https://github.com/the-wang" class="text-info">@Victor <i class="icon-twitter"></i></a>
+
+                          <i class="fa fa-clock-o icon-muted"></i> May 8, 2017
+
+                          
+                        </small>
+                      </p>
+                      <a href="https://love.alipay.com/donate/index.htm" class="btn btn-s-md btn-success btn-rounded">奉献爱心</a>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          <!-- End Post -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </body>
+</html>

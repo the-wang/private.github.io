@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>执着的路-that-wang - API Driven Development with APIary.io</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/font.css">
+    <link rel="stylesheet" href="/assets/css/landing.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/assets/css/highlight.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <link rel="canonical" href="http://the-wang.github.io/tool/API-Driven-Development/">
+</head>
+
+  <body>
+  <header id="header" class="navbar navbar-fixed-top bg-white box-shadow b-b b-light"  data-spy="affix" data-offset-top="1">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand"><img src="/assets/images/logo.png" class="m-r-sm"><span class="text-muted">Notebook</span></a>
+      <button class="btn btn-link visible-xs" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Home</a></li>
+        <li><a href="/tags/">Tags</a></li>
+        <li><a href="/feed.xml">RSS</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+  <section id="content">
+    <div class="container m-t-lg m-b-lg">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="blog-post">
+          <!-- Begin Post -->
+            <div class="post-item">
+              <div class="caption wrapper-lg">
+                <h2 class="post-title">API Driven Development with APIary.io</h2>
+                <div class="progress progress-xxs m-t-sm">
+                  <div class="progress-bar progress-bar-success" data-toggle="tooltip" style="width: 100%"></div>
+                </div>
+                <div class="post-sum">
+                  <h2 id="前言">前言</h2>
+
+<p>我们常见的开发方式主要是 TDD(Threat-Driven AppDevelopment) 和 BDD(Boss-Driven AppDevelopment)。</p>
+
+<p>TDD 的经典场景：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>产品：这个功能周一上面要验收，要不周末加加班吧。
+程序员：好吧（CNM）
+</code></pre>
+</div>
+
+<p>BDD 的经典场景：</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>老板：你下周给我做一个类似微信的这个功能。
+程序员：好的老板（CNM）
+</code></pre>
+</div>
+
+<h2 id="api-driven-development">API Driven Development</h2>
+
+<h3 id="从-api-文档开始">从 API 文档开始</h3>
+
+<p><a href="https://apiary.io/">apiary.io</a> 是使用 BluePrint 格式的一款文档工具，它支持实时预览功能。</p>
+
+<p>假设我们的 <code class="highlighter-rouge">Blog</code> API 项目只有 2 个服务接口，<code class="highlighter-rouge">GET /article</code> 和 <code class="highlighter-rouge">POST /article</code>。</p>
+
+<pre><code class="language-blueprint">FORMAT: 1A
+
+# blog
+
+Blog is a simple API allowing consumers...
+
+## Article Collection [/article]
+
+### List All Articles [GET]
+
++ Response 200 (application/json)
+
+        [
+            {
+                "title": "Article 1",
+                "content": "content"
+            },
+            {
+                "title": "Article 2",
+                "content": "content"
+            }
+        ]
+
+### Create a New Article [POST]
+
+You may create your own article using this action. It takes a JSON
+object containing...
+
++ Request (application/json)
+
+        {
+            "title": "My new post",
+            "content": "new article content",
+        }
+
++ Response 201 (application/json)
+
+    + Body
+
+            {
+               "status":"created"
+            }
+</code></pre>
+
+<h3 id="创建-api-应用">创建 API 应用</h3>
+
+<p>我们的目标是期望程序员实现的 API 和上面描述的文档一致。为了实现这个目标，需要引入 <a href="https://github.com/apiaryio/dredd">Dredd</a>。</p>
+
+<p>Dredd 是一个 HTTP API 测试框架。它会阅读你的 API 文档，然后验证你的 API 实现的响应是否和文档描述的一致。</p>
+
+<p>假设我们的文档地址是 <code class="highlighter-rouge">https://jsapi.apiary.io/apis/blog41.apib</code> 开发地址是 <code class="highlighter-rouge">http://blog.dev</code></p>
+
+<p>在项目的根目录执行如下命令</p>
+
+<div class="highlighter-rouge"><pre class="highlight"><code>dredd https://jsapi.apiary.io/apis/blog41.apib http://blog.dev
+</code></pre>
+</div>
+
+<p>因为我们还没有实现任何 API 所以，返回的信息会是和文档描述的返回值一样，并提示 <code class="highlighter-rouge">complete: 0 passing, 2 failing, 0 errors, 0 skipped, 2 total</code>。</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*Lwwg-6KHJz5hJhnh7xfeoA.png" alt="" /></p>
+
+<p>当你捅咕半天编辑器，然后实现了这两个 API 之后，再次运行这条命令，会返回成功提示。</p>
+
+<p><img src="https://cdn-images-1.medium.com/max/800/1*tfq7p-06V2Pzyn-7r5WKJg.png" alt="" /></p>
+
+<h3 id="有啥用">有啥用？？？</h3>
+
+<p>你可以先跟客户端开发的兄弟，商议好 API 接口和返回值，然后用 apiary.io 提供的 mock server 让客户端跟服务端同步开发，而不用等你。</p>
+
+<h2 id="相关">相关</h2>
+
+<ul>
+  <li><a href="https://apievangelist.com/2014/11/21/there-are-four-api-design-editors-to-choose-from-now/">There Are Four API Design Editors To Choose From Now</a></li>
+  <li><a href="https://sendgrid.com/blog/quickly-prototype-apis-apiary/">Quickly Prototype APIs with Apiary</a></li>
+  <li><a href="https://apiblueprint.org/">API Blueprint</a></li>
+  <li><a href="https://apiblueprint.org/documentation/tutorial.html">API Blueprint Tutorial</a></li>
+  <li><a href="https://github.com/apiaryio/api-blueprint/tree/master/examples">API Blueprint examples</a></li>
+  <li><a href="https://dredd.readthedocs.io/en/latest/hooks-ruby/">Writing Dredd Hooks In Ruby</a></li>
+</ul>
+
+                </div>
+
+                <section class="panel panel-default">
+                  <div class="panel-body">
+                    <a href="https://github.com/the-wang" class="thumb pull-right m-l">
+                      <img src="/assets/images/avatar.jpg" class="img-circle">
+                    </a>
+                    <div class="clear">
+                      <p>
+                        <small class="block text-muted">
+                          如果觉得我的文章对您有用，请在支付宝公益平台找个项目捐点钱。
+
+                          <a href="https://github.com/the-wang" class="text-info">@Victor <i class="icon-twitter"></i></a>
+
+                          <i class="fa fa-clock-o icon-muted"></i> Jun 25, 2017
+
+                          
+                        </small>
+                      </p>
+                      <a href="https://love.alipay.com/donate/index.htm" class="btn btn-s-md btn-success btn-rounded">奉献爱心</a>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          <!-- End Post -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </body>
+</html>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>执着的路-that-wang - reverse_merge 为方法设置默认参数的技巧</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/font.css">
+    <link rel="stylesheet" href="/assets/css/landing.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/assets/css/highlight.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <link rel="canonical" href="http://the-wang.github.io/rails/reverse-merge/">
+</head>
+
+  <body>
+  <header id="header" class="navbar navbar-fixed-top bg-white box-shadow b-b b-light"  data-spy="affix" data-offset-top="1">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand"><img src="/assets/images/logo.png" class="m-r-sm"><span class="text-muted">Notebook</span></a>
+      <button class="btn btn-link visible-xs" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Home</a></li>
+        <li><a href="/tags/">Tags</a></li>
+        <li><a href="/feed.xml">RSS</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+  <section id="content">
+    <div class="container m-t-lg m-b-lg">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="blog-post">
+          <!-- Begin Post -->
+            <div class="post-item">
+              <div class="caption wrapper-lg">
+                <h2 class="post-title">reverse_merge 为方法设置默认参数的技巧</h2>
+                <div class="progress progress-xxs m-t-sm">
+                  <div class="progress-bar progress-bar-success" data-toggle="tooltip" style="width: 100%"></div>
+                </div>
+                <div class="post-sum">
+                  <p>先来看一下 hash 的 <code class="highlighter-rouge">merge</code> 方法。</p>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="n">h1</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"a"</span> <span class="o">=&gt;</span> <span class="mi">100</span><span class="p">,</span> <span class="s2">"b"</span> <span class="o">=&gt;</span> <span class="mi">200</span> <span class="p">}</span>
+<span class="n">h2</span> <span class="o">=</span> <span class="p">{</span> <span class="s2">"b"</span> <span class="o">=&gt;</span> <span class="mi">254</span><span class="p">,</span> <span class="s2">"c"</span> <span class="o">=&gt;</span> <span class="mi">300</span> <span class="p">}</span>
+<span class="n">h1</span><span class="p">.</span><span class="nf">merge</span><span class="p">(</span><span class="n">h2</span><span class="p">)</span>   <span class="c1">#=&gt; {"a"=&gt;100, "b"=&gt;254, "c"=&gt;300}</span>
+<span class="n">h1</span>             <span class="c1">#=&gt; {"a"=&gt;100, "b"=&gt;200}</span>
+</code></pre>
+</div>
+
+<p>Rails 提供的 <code class="highlighter-rouge">reverse_merge</code> 的作用与 <code class="highlighter-rouge">merge</code> 正好相反，<code class="highlighter-rouge">merge</code> 时后面的优先级高，<code class="highlighter-rouge">reverse_merge</code> 时前面 hash 的优先级高。</p>
+
+<p><code class="highlighter-rouge">reverse_mergee</code> 最常见的用处就是在 Rails 中为方法的 hash 参数设置默认值。</p>
+
+<div class="language-erb highlighter-rouge"><pre class="highlight"><code><span class="c">&lt;!-- erb中 --&gt;</span>
+<span class="cp">&lt;%=</span> <span class="n">display_product</span> <span class="vi">@product</span><span class="p">,</span> <span class="ss">:show_price</span> <span class="o">=&gt;</span> <span class="kp">true</span> <span class="cp">%&gt;</span>
+</code></pre>
+</div>
+
+<div class="language-ruby highlighter-rouge"><pre class="highlight"><code><span class="c1"># helper中</span>
+<span class="k">def</span> <span class="nf">display_product</span><span class="p">(</span><span class="n">product</span><span class="p">,</span> <span class="n">locals</span> <span class="o">=</span> <span class="p">{})</span>
+  <span class="n">locals</span><span class="p">.</span><span class="nf">reverse_merge!</span> <span class="ss">:show_price</span> <span class="o">=&gt;</span> <span class="kp">false</span>
+  <span class="n">render</span> <span class="ss">:partial</span> <span class="o">=&gt;</span> <span class="n">product</span><span class="p">,</span> <span class="ss">:locals</span> <span class="o">=&gt;</span> <span class="n">locals</span>
+<span class="k">end</span>
+</code></pre>
+</div>
+
+<p>当然现在看来这个例子并不算很好，因为 <a href="/ruby/ruby-2-keyword-arguments/">Ruby 2 Keyword Arguments</a>。</p>
+
+                </div>
+
+                <section class="panel panel-default">
+                  <div class="panel-body">
+                    <a href="https://github.com/the-wang" class="thumb pull-right m-l">
+                      <img src="/assets/images/avatar.jpg" class="img-circle">
+                    </a>
+                    <div class="clear">
+                      <p>
+                        <small class="block text-muted">
+                          如果觉得我的文章对您有用，请在支付宝公益平台找个项目捐点钱。
+
+                          <a href="https://github.com/the-wang" class="text-info">@Victor <i class="icon-twitter"></i></a>
+
+                          <i class="fa fa-clock-o icon-muted"></i> May 12, 2017
+
+                          
+                        </small>
+                      </p>
+                      <a href="https://love.alipay.com/donate/index.htm" class="btn btn-s-md btn-success btn-rounded">奉献爱心</a>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          <!-- End Post -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </body>
+</html>

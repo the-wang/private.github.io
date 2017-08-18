@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>执着的路-that-wang - 如何写好 Use Case</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/font.css">
+    <link rel="stylesheet" href="/assets/css/landing.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/assets/css/highlight.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <link rel="canonical" href="http://the-wang.github.io/other/use-case/">
+</head>
+
+  <body>
+  <header id="header" class="navbar navbar-fixed-top bg-white box-shadow b-b b-light"  data-spy="affix" data-offset-top="1">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand"><img src="/assets/images/logo.png" class="m-r-sm"><span class="text-muted">Notebook</span></a>
+      <button class="btn btn-link visible-xs" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Home</a></li>
+        <li><a href="/tags/">Tags</a></li>
+        <li><a href="/feed.xml">RSS</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+  <section id="content">
+    <div class="container m-t-lg m-b-lg">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="blog-post">
+          <!-- Begin Post -->
+            <div class="post-item">
+              <div class="caption wrapper-lg">
+                <h2 class="post-title">如何写好 Use Case</h2>
+                <div class="progress progress-xxs m-t-sm">
+                  <div class="progress-bar progress-bar-success" data-toggle="tooltip" style="width: 100%"></div>
+                </div>
+                <div class="post-sum">
+                  <h2 id="use-case-入门">Use Case 入门</h2>
+
+<h3 id="什么是-use-case">什么是 Use Case</h3>
+
+<p>Use Case 是一种在开发新系统或者软件改造时捕获潜在需求的技术。每个用例提供了一个或多个场景，该场景揭示了系统是如何同最终用户或其它系统交互的，从而获得一个明确的业务目标。<strong>它描述的是一个操作，而不是一个功能。</strong></p>
+
+<h3 id="为什么需要--use-case">为什么需要  Use Case</h3>
+
+<p>传统的软件模型设计喜欢在需求分析把业务分解成功能模块，这样的弊端就是混淆了需求和设计的界限，因为功能模块的划分牵涉到系统的概要设计。</p>
+
+<p>与功能模块不同的是，用例不是站在开发者的角度，而是站在用户的角度来分解系统，因为用户并不想了解系统的内部结构和设计，他们关心的是系统的服务，即系统是如何去操作的，这就是用例的基本思想。</p>
+
+<h2 id="和-user-story-的区别">和 User Story 的区别</h2>
+
+<p>User Story 描述对用户或客户有价值的功能，只是需求描述，而不是详细的需求规范。
+Use Case 在不展现一个系统或子系统内部结构的情况下，对系统或子系统的某个连贯的功能单元的定义和描述。</p>
+
+<h2 id="如何书写-use-case">如何书写 Use Case</h2>
+
+<p>用例描述文档的书写是系统分析人员对用户需求的深刻理解的体现。是后期时序图和实际开发的重要依据。也可以对作为项目估算的依据。<strong>要避免技术术语，取而代之的是最终用户或者领域专家的语言。</strong></p>
+
+<h3 id="use-case-文档前的准备">Use Case 文档前的准备</h3>
+
+<ul>
+  <li>对用户的问题要有非常深刻完善的理解</li>
+</ul>
+
+<h3 id="use-case-文档的目标">Use Case 文档的目标</h3>
+
+<ul>
+  <li>确保能够解决用户的所有问题</li>
+  <li>把用户的需求真正地反应到商业模型</li>
+  <li>对以后的设计和开发过程提供说明和框架</li>
+</ul>
+
+<h3 id="use-case-文档的内容模板">Use Case 文档的内容模板</h3>
+
+<ol>
+  <li>首先有用例名称：一般是模块名称或者模块中功能点的名称。</li>
+  <li>其次文档变更记录(Revision History) - 包含 Date, Version, Description, Author。</li>
+  <li>本文部分包含如下：
+    <ol>
+      <li>基本描述(Brief Description) - 简要介绍该用例的作用和目的。比如此用例的使用者是谁、使用者所要做的操作。</li>
+      <li>前置条件(Pre-Condition) - 描述该用例执行前所要满足的条件和系统必须所处的状态。比如用例B执行前，必须先执行A，则用例的前置条件是执行A。</li>
+      <li>事后状态(Post-Condition) - 用例执行完毕后系统可能处于的一组状态。</li>
+      <li>事件流(Flow of Event)</li>
+      <li>基本流程(Basic Flows) - 用户操作该用例的基本流程 (是后期时序图的主要参考)</li>
+      <li>选择性流程(Alternative Flows) - 在操作主要流程过程中，出现的一些分支流程 (是后期时序图的主要参考)</li>
+      <li>特别需求(Special Requirement) - 描述与该用例相关的非功能性需求。
+        <ul>
+          <li>包括性能、可靠性、可用性和可扩展性等和设计约束</li>
+          <li>所使用的操作系统、开发工具等</li>
+          <li>对一些细微功能点进行描述，比如用户身份验证规则、订单号码产生规则、是否需要SSL加密等等 。</li>
+        </ul>
+      </li>
+      <li>使用界面(User Interface) - 根据需求制作的UI，及其对UI中栏位进行的说明。</li>
+      <li>附加资讯(Addition Information) - 一些商务逻辑的描述 (可以把系统逻辑试图 Logic View 放到这里)</li>
+    </ol>
+  </li>
+</ol>
+
+<p>基本流的描述一般按照这样的格式：</p>
+
+<ol>
+  <li>每个步骤都有数字编号来表明它的先后顺序</li>
+  <li>每个步骤都有简短的标题来概括它的内容</li>
+  <li>每个步骤要详细描述参与者跟系统之间的交互，一般按照正反两个方面来描述
+    <ul>
+      <li>参与者向系统提交了什么信息</li>
+      <li>系统作出了什么反应</li>
+    </ul>
+  </li>
+</ol>
+
+<p>备选流除了包括基本流类似的描述外，还包括：</p>
+
+<ol>
+  <li>起点：备选流从事件流的哪一步开始</li>
+  <li>条件：在什么条件下触发</li>
+  <li>动作：备选流下系统采取了哪些操作</li>
+  <li>恢复：备选流结束后，用例如何继续</li>
+</ol>
+
+<h3 id="什么情况下可以削产品经理">什么情况下可以削产品经理</h3>
+
+<ul>
+  <li>基本流程和选择性流程描述的不够清楚或者不够详细</li>
+  <li>基本流程描述中不能体现出明确的对象</li>
+  <li>其它事件流有遗漏</li>
+</ul>
+
+<p>因为这属于他 <strong>对需求理解的不够透彻，分析的不够彻底。</strong></p>
+
+<h3 id="例子">例子</h3>
+
+<table>
+  <thead>
+    <tr>
+      <th>名称</th>
+      <th>内容</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>用例名称</td>
+      <td>网站公告发布</td>
+    </tr>
+    <tr>
+      <td>用例标识号</td>
+      <td>202</td>
+    </tr>
+    <tr>
+      <td>参与者</td>
+      <td>负责人</td>
+    </tr>
+    <tr>
+      <td>基本描述</td>
+      <td>负责人用来填写和修改家教网站首页的公告，公告最终显示在家教网站的首页上。</td>
+    </tr>
+    <tr>
+      <td>前置条件</td>
+      <td>负责人已经登陆家教网站管理系统</td>
+    </tr>
+    <tr>
+      <td>基本流程</td>
+      <td>1． 负责人鼠标点击“修改公告”按钮<br />2． 系统出现一个文本框，显示着原来的公告内容<br />3． 负责人可以在文本框上修改公告，也可以完全删除，重新写新的公告<br />4． 负责人编辑完文本框，按“提交”按钮，首页公告就被修改<br />5． 用例终止</td>
+    </tr>
+    <tr>
+      <td>选择性流程 A1</td>
+      <td>在按“提交”按钮之前，负责人随时可以按“返回”按钮，文本框的任何修改内容都不会影响网站首页的公告</td>
+    </tr>
+    <tr>
+      <td>异常流程</td>
+      <td>1． 提示错误信息，负责人确认<br />2． 返回到管理系统主页面</td>
+    </tr>
+    <tr>
+      <td>事后状态</td>
+      <td>网站首页的公告信息被修改</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="参考">参考</h2>
+
+<ul>
+  <li><a href="http://www.cnblogs.com/ywqu/archive/2009/12/01/1614509.html">如何书写Use Case</a></li>
+  <li><a href="http://blog.csdn.net/eddle/article/details/7038008">对use case的一点理解</a></li>
+  <li><a href="http://blog.csdn.net/zfrong/article/details/3723141">UML中的用例(Use Case)概念分析及StarUML实例</a></li>
+  <li><a href="https://wenku.baidu.com/view/80a9b2bffd0a79563c1e726b.html">如何书写规范的Use Case描述文档</a></li>
+</ul>
+
+<h2 id="延伸阅读">延伸阅读</h2>
+
+<ul>
+  <li><a href="http://www.cnblogs.com/xiaolongbao-lzh/p/4590897.html">UML建模 - 用例图</a></li>
+  <li><a href="http://www.cnblogs.com/ywqu/archive/2009/12/03/1616232.html">设计阶段如何画用例视图</a></li>
+</ul>
+
+                </div>
+
+                <section class="panel panel-default">
+                  <div class="panel-body">
+                    <a href="https://github.com/the-wang" class="thumb pull-right m-l">
+                      <img src="/assets/images/avatar.jpg" class="img-circle">
+                    </a>
+                    <div class="clear">
+                      <p>
+                        <small class="block text-muted">
+                          如果觉得我的文章对您有用，请在支付宝公益平台找个项目捐点钱。
+
+                          <a href="https://github.com/the-wang" class="text-info">@Victor <i class="icon-twitter"></i></a>
+
+                          <i class="fa fa-clock-o icon-muted"></i> Jun 6, 2017
+
+                          
+                        </small>
+                      </p>
+                      <a href="https://love.alipay.com/donate/index.htm" class="btn btn-s-md btn-success btn-rounded">奉献爱心</a>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          <!-- End Post -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </body>
+</html>
