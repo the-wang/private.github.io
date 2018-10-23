@@ -5,13 +5,81 @@
     <description></description>
     <link>http://the-wang.github.io/</link>
     <atom:link href="http://the-wang.github.io/feed.xml" rel="self" type="application/rss+xml" />
-    <pubDate>Tue, 22 Aug 2017 09:37:23 +0000</pubDate>
-    <lastBuildDate>Tue, 22 Aug 2017 09:37:23 +0000</lastBuildDate>
+    <pubDate>Tue, 23 Oct 2018 03:25:59 +0000</pubDate>
+    <lastBuildDate>Tue, 23 Oct 2018 03:25:59 +0000</lastBuildDate>
     <generator>Jekyll v3.4.3</generator>
     
       <item>
+        <title>做了一个有意思的梦</title>
+        <description>&lt;p&gt;梦见天空分成了两半，一半晴天一半夜晚。夜晚的那半宇宙好像近在眼前，色彩斑斓，像一张无边无际的大网，不同的色块填充在星星之间，深邃又迷离。&lt;/p&gt;
+
+&lt;p&gt;梦中的环境充满了动荡与不安，危机四伏，主角竟是高中一个娇小可爱的女同学-张琦，梦中忍不住的靠近她，想要保护她，互生暧昧又心照不宣，在充满危机的环境下守护一方温暖的小天地。&lt;/p&gt;
+
+&lt;p&gt;好奇怪为什么会梦见她，可能是最近太缺少成就感，也缺少安全感吧。不过话说回来这个梦还是挺温馨的，以至于不想醒来。现在想想，学生时代没有谈一次无忧无虑纯真的爱情，是个一生的遗憾吧。时不再来，这么一步步走来，我竟要有孩子了。&lt;/p&gt;
+
+&lt;p&gt;我的孩子一定不要走我的路，要活出自己的生活，拥有纯真的爱情，抓住生活的真谛，不要浑浑噩噩的走下去。&lt;/p&gt;
+</description>
+        <pubDate>Tue, 23 Oct 2018 00:00:00 +0000</pubDate>
+        <link>http://the-wang.github.io/diary/%E5%81%9A%E4%BA%86%E4%B8%80%E4%B8%AA%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E6%A2%A6/</link>
+        <guid isPermaLink="true">http://the-wang.github.io/diary/%E5%81%9A%E4%BA%86%E4%B8%80%E4%B8%AA%E6%9C%89%E6%84%8F%E6%80%9D%E7%9A%84%E6%A2%A6/</guid>
+        
+        <category>dream</category>
+        
+        
+        <category>diary</category>
+        
+      </item>
+    
+      <item>
+        <title>乐观锁与悲观锁</title>
+        <description>&lt;ul&gt;
+  &lt;li&gt;乐观锁：当我需要操作目标资源时，&lt;strong&gt;乐观&lt;/strong&gt;的认为目标资源没有别人竞争，所以会直接操作，不需要提前占有该资源&lt;/li&gt;
+  &lt;li&gt;
+    &lt;p&gt;悲观锁：当我需要操作目标资源时，为了防止别人的操作冲突，&lt;strong&gt;先占有&lt;/strong&gt;目标资源后再操作&lt;/p&gt;
+  &lt;/li&gt;
+  &lt;li&gt;乐观锁通常用版本机制（version字段或者updatetime）去操作对象，如果发现没有符合版本的目标资源，则可以进行重试（查新版本，用新版本更新）&lt;/li&gt;
+&lt;/ul&gt;
+</description>
+        <pubDate>Tue, 22 Aug 2017 17:30:00 +0000</pubDate>
+        <link>http://the-wang.github.io/db/%E4%B9%90%E8%A7%82%E9%94%81%E4%B8%8E%E6%82%B2%E8%A7%82%E9%94%81/</link>
+        <guid isPermaLink="true">http://the-wang.github.io/db/%E4%B9%90%E8%A7%82%E9%94%81%E4%B8%8E%E6%82%B2%E8%A7%82%E9%94%81/</guid>
+        
+        <category>mysql</category>
+        
+        <category>db</category>
+        
+        
+        <category>db</category>
+        
+      </item>
+    
+      <item>
         <title>成都2017年房地产市场调查</title>
-        <description>&lt;h2 id=&quot;城区及环境调查&quot;&gt;城区及环境调查&lt;/h2&gt;
+        <description>&lt;h2 id=&quot;楼盘要看什么&quot;&gt;楼盘要看什么&lt;/h2&gt;
+&lt;p&gt;&lt;a href=&quot;https://www.zhihu.com/question/29367761&quot;&gt;怎样快速了解一个楼盘&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;容积率&quot;&gt;容积率&lt;/h3&gt;
+&lt;p&gt;容积率（Plot Ratio/Floor Area Ratio/Volume Fraction）又称建筑面积毛密度，是指一个小区的地上总建筑面积与用地面积的比率。对于开发商来说，容积率决定地价成本在房屋中占的比例，而对于住户来说，容积率直接涉及到居住的舒适度。一个良好的居住小区，高层住宅容积率应不超过5，多层住宅应不超过3，绿地率应不低于30%。&lt;/p&gt;
+
+&lt;p&gt;现行城市规划法规体系下编制的各类居住用地的控制性详细规划，一般而言，容积率分为：
+独立别墅为0.2~0.5,
+联排别墅为0.4~0.7,
+6层以下多层住宅为0.8~1.2,
+11层小高层住宅为1.5~2.0,
+18层高层住宅为1.8~2.5,
+19层以上住宅为2.4~4.5,
+住宅小区容积率小于1.0的，为非普通住宅。&lt;/p&gt;
+
+&lt;p&gt;&lt;strong&gt;在现在的大地块开发中，公开资料给的往往是总容积率，单纯的参考价值就少了很多。因为开发商会根据组合产品不同来分拆容积率，从而在不同产品上实现最大的利益。换言之，看到一个高容积率的项目，就要看实际的产品组合和推算分项容积率。在现在的大地块开发中，公开资料给的往往是总容积率，单纯的参考价值就少了很多。因为开发商会根据组合产品不同来分拆容积率，从而在不同产品上实现最大的利益。换言之，看到一个高容积率的项目，就要看实际的产品组合和推算分项容积率。&lt;/strong&gt;&lt;/p&gt;
+
+&lt;h3 id=&quot;绿化覆盖率绿地率&quot;&gt;绿化覆盖率&amp;amp;绿地率&lt;/h3&gt;
+&lt;ul&gt;
+  &lt;li&gt;绿化覆盖率：凡事绿色的都计入在内，包括一块草坪，无论土壤厚度&lt;/li&gt;
+  &lt;li&gt;绿地率：要求较高，比如地下车库、化粪池等地下土壤厚度不足3米的不计入在内&lt;/li&gt;
+&lt;/ul&gt;
+
+&lt;p&gt;所以，绿化覆盖率通常会比绿地率要高。&lt;/p&gt;
+
+&lt;h2 id=&quot;城区及环境调查&quot;&gt;城区及环境调查&lt;/h2&gt;
 &lt;h3 id=&quot;印象&quot;&gt;印象&lt;/h3&gt;
 &lt;p&gt;中心城区以南，以北不考虑&lt;/p&gt;
 
@@ -123,6 +191,8 @@
 
 &lt;h2 id=&quot;道听途说&quot;&gt;道听途说&lt;/h2&gt;
 &lt;p&gt;&lt;a href=&quot;https://baijiahao.baidu.com/s?id=1575452135426115&amp;amp;wfr=spider&amp;amp;for=pc&quot;&gt;秦皇帝锦&lt;/a&gt;&lt;/p&gt;
+
+&lt;p&gt;&lt;a href=&quot;http://sc.leju.com/news/2017-04-11/17356257496061812989257.shtml&quot;&gt;2017一季度成都楼市&lt;/a&gt;&lt;/p&gt;
 
 &lt;p&gt;&lt;a href=&quot;https://www.zhihu.com/question/40370434?sort=created&quot;&gt;趋势&lt;/a&gt;&lt;/p&gt;
 </description>
@@ -1089,216 +1159,6 @@ Use Case 在不展现一个系统或子系统内部结构的情况下，对系�
         
         
         <category>rails</category>
-        
-      </item>
-    
-      <item>
-        <title>创建用户故事地图 (User Story Mapping) 的8个步骤</title>
-        <description>&lt;p&gt;用户故事地图已经成为敏捷需求规划中的一个流行方法。用户故事地图可以将你的backlog变成一张二维地图，而不是传统的简单列表。&lt;/p&gt;
-
-&lt;h3 id=&quot;用户故事地图可以解决以下问题&quot;&gt;用户故事地图可以解决以下问题&lt;/h3&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;让你更容易看清 backlog 的全貌&lt;/li&gt;
-  &lt;li&gt;为新功能筛选（grooming）和划定优先级提供了更好的工具，帮助你做出决策&lt;/li&gt;
-  &lt;li&gt;便于使用静默头脑风暴模式和其他协作方式来产生用户故事&lt;/li&gt;
-  &lt;li&gt;帮助你更好的进行迭代增量式开发，同时确保早期的发布可以验证整体架构和解决方案&lt;/li&gt;
-  &lt;li&gt;为传统的项目计划提供了一个更好的替代工具&lt;/li&gt;
-  &lt;li&gt;有助于激发讨论和管理项目范围&lt;/li&gt;
-  &lt;li&gt;允许你从多个维度进行项目规划，并确保不同的想法都可以得到采纳&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;创建用户故事地图的8个步骤&quot;&gt;创建用户故事地图的8个步骤&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;召集 3-5 名对产品非常熟悉的人员参与。&lt;/li&gt;
-  &lt;li&gt;不要互相讨论。每个人在便签纸上写下自己认为重要的 &lt;strong&gt;所要做的事情&lt;/strong&gt; 也就是 &lt;strong&gt;用户任务&lt;/strong&gt;（user task），便签都会以一个动词开头，如：发送邮件、创建联系人、添加用户等。&lt;/li&gt;
-  &lt;li&gt;用几分钟将桌面上所有的便签进行分组，将类似的任务分为一组。&lt;/li&gt;
-  &lt;li&gt;选择另外一个颜色的便签，对每个组进行命名，并贴在每组便签的上部。&lt;/li&gt;
-  &lt;li&gt;对这些分好组的便签进行排序，一般按照用户完成操作的顺序，从左到右摆放，这一组便签称为 &lt;strong&gt;用户活动&lt;/strong&gt;（User Activities）。&lt;/li&gt;
-  &lt;li&gt;会议组织者按照步骤5的结果，口述用户故事。&lt;/li&gt;
-  &lt;li&gt;在每个用户任务下面添加更加细节的 &lt;strong&gt;用户故事&lt;/strong&gt;（User Stories），划定 &lt;strong&gt;发布计划&lt;/strong&gt;（Releases）&lt;/li&gt;
-  &lt;li&gt;针对第一个发布的所有用户故事进行分解，确保我们的第一个发布越小越好。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;用户故事地图规范&quot;&gt;用户故事地图规范&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://image.woshipm.com/wp-files/2016/01/QQ20160119112706.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;第2个步骤中的便签表示 &lt;strong&gt;用户任务&lt;/strong&gt;（user tasks），蓝色便签&lt;/li&gt;
-  &lt;li&gt;第3-4个步骤中的便签表示 &lt;strong&gt;用户行为&lt;/strong&gt;（user activies），橘色便签&lt;/li&gt;
-  &lt;li&gt;&lt;strong&gt;用户故事&lt;/strong&gt;（user stories），黄色便签在每个用户任务下自上而下排列，便于我们确定优先级&lt;/li&gt;
-  &lt;li&gt;一般来说用户会按照从左到右的顺序来使用你的系统（用户故事地图）&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;用户故事地图样例&quot;&gt;用户故事地图样例&lt;/h3&gt;
-
-&lt;p&gt;&lt;img src=&quot;http://image.woshipm.com/wp-files/2016/01/QQ20160119112655.jpg&quot; alt=&quot;&quot; /&gt;&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;第二行所包含的内容就是 &lt;strong&gt;大家在电子邮件系统所要做的事情&lt;/strong&gt;，包括类似：书写邮件，发送邮件，创建约会等等。&lt;/li&gt;
-  &lt;li&gt;第一行对这些事情进行了分组&lt;/li&gt;
-  &lt;li&gt;黄色的便签的第一行包含了最小化的用户故事，如：写邮件只包括发件人，收件人，标题，内容和发送取消按钮。其他如支持RTF，HTML格式，添加附件，从通讯部获取联系人邮件地址等，都不在此行，放入更靠下的便签中。&lt;/li&gt;
-  &lt;li&gt;黄色便签上的更小的蓝色和橘黄色便签表示了不同的状态，比如：蓝色代表完成，橘黄色代表进行中，这样你就可以看到项目的进展&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;参考&quot;&gt;参考&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.woshipm.com/pd/270289.html&quot;&gt;创建用户故事地图(User Story Mapping)的8个步骤&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Sat, 03 Jun 2017 11:30:00 +0000</pubDate>
-        <link>http://the-wang.github.io/other/user-story-mapping/</link>
-        <guid isPermaLink="true">http://the-wang.github.io/other/user-story-mapping/</guid>
-        
-        <category>scrum</category>
-        
-        
-        <category>other</category>
-        
-      </item>
-    
-      <item>
-        <title>如何写好 User Story</title>
-        <description>&lt;h2 id=&quot;user-story-入门&quot;&gt;User Story 入门&lt;/h2&gt;
-
-&lt;p&gt;对于敏捷开发来说，User Story 是开发的基础，它不同于传统的瀑布式开发方式，而是把原本需求拆成最小粒度的 Story，以方便拆分 Task，估计开发时间，领取开发任务。&lt;/p&gt;
-
-&lt;h3 id=&quot;什么是用户故事-user-story&quot;&gt;什么是用户故事 (User Story)&lt;/h3&gt;
-
-&lt;p&gt;用户故事是从用户的角度来描述用户渴望得到的功能。用户故事不能够使用技术语言来描述，要使用用户可以理解的业务语言来描述。一个好的用户故事包括三个要素：&lt;/p&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;角色：谁要使用这个功能。&lt;/li&gt;
-  &lt;li&gt;活动：需要完成什么样的功能。&lt;/li&gt;
-  &lt;li&gt;商业价值：为什么需要这个功能，这个功能带来什么样的价值。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;p&gt;用户故事通常按照如下的格式来表达：&lt;/p&gt;
-
-&lt;div class=&quot;highlighter-rouge&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;英文：
-As a &amp;lt;Role&amp;gt;, I want to &amp;lt;Activity&amp;gt;, so that &amp;lt;Business Value&amp;gt;.
-
-中文：
-作为一个&amp;lt;角色&amp;gt;, 我想要&amp;lt;活动&amp;gt;, 以便于&amp;lt;商业价值&amp;gt;
-&lt;/code&gt;&lt;/pre&gt;
-&lt;/div&gt;
-
-&lt;p&gt;举例：&lt;/p&gt;
-
-&lt;blockquote&gt;
-  &lt;p&gt;作为一个“网站管理员”，我想要“统计每天有多少人访问了我的网站”，以便于“我的赞助商了解我的网站会给他们带来什么收益。”
-作为一个普通用户，我希望能够用用户名和密码登录，以便我能享受到个性化的服务
-用户可以在网站上发布简历
-用户可以查找职位
-公司可以发布新的职位
-用户可以限制那些人可以查看他的简历&lt;/p&gt;
-&lt;/blockquote&gt;
-
-&lt;h3 id=&quot;ron-jeffries-的-3-个-c&quot;&gt;Ron Jeffries 的 3 个 C&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;卡片 &lt;code class=&quot;highlighter-rouge&quot;&gt;Card&lt;/code&gt; – 用户故事一般写在小的记事卡片上。卡片上可能会写上故事的简短描述，工作量估算等。&lt;/li&gt;
-  &lt;li&gt;交谈 &lt;code class=&quot;highlighter-rouge&quot;&gt;Conversation&lt;/code&gt; - 用户故事背后的细节来源于和客户或者产品负责人的交流沟通。&lt;/li&gt;
-  &lt;li&gt;确认 &lt;code class=&quot;highlighter-rouge&quot;&gt;Confirmation&lt;/code&gt; - 通过验收测试确认用户故事被正确完成。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;用户故事的六个特性---invest&quot;&gt;用户故事的六个特性 - INVEST&lt;/h3&gt;
-
-&lt;p&gt;独立性 &lt;code class=&quot;highlighter-rouge&quot;&gt;Independent&lt;/code&gt; – 要尽可能的让一个用户故事独立于其他的用户故事。用户故事之间的依赖使得制定计划，确定优先级，工作量估算都变得很困难。通常我们可以通过组合用户故事和分解用户故事来减少依赖性。&lt;/p&gt;
-
-&lt;p&gt;可协商性 &lt;code class=&quot;highlighter-rouge&quot;&gt;Negotiable&lt;/code&gt; – 一个用户故事的内容要是可以协商的，用户故事不是合同。一个用户故事卡片上只是对用户故事的一个简短的描述，不包括太多的细节。具体的细节在沟通阶段产出。一个用户故事卡带有了太多的细节，实际上限制了和用户的沟通。&lt;/p&gt;
-
-&lt;p&gt;有价值 &lt;code class=&quot;highlighter-rouge&quot;&gt;Valuable&lt;/code&gt; – 每个故事必须对客户具有价值（无论是用户还是购买方）。一个让用户故事有价值的好方法是让客户来写下它们。一旦一个客户意识到这是一个用户故事并不是一个契约而且可以进行协商的时候，他们将非常乐意写下故事。&lt;/p&gt;
-
-&lt;p&gt;可以估算性 &lt;code class=&quot;highlighter-rouge&quot;&gt;Estimable&lt;/code&gt; – 开发团队需要去估计一个用户故事以便确定优先级，工作量，安排计划。但是让开发者难以估计故事的问题来自：对于领域知识的缺乏（这种情况下需要更多的沟通），或者故事太大了（这时需要把故事切分成小些的）。&lt;/p&gt;
-
-&lt;p&gt;短小 &lt;code class=&quot;highlighter-rouge&quot;&gt;Small&lt;/code&gt; – 一个好的故事在工作量上要尽量短小，最好不要超过10个理想人/天的工作量,至少要确保的是在一个迭代或Sprint中能够完成。用户故事越大，在安排计划，工作量估算等方面的风险就会越大。&lt;/p&gt;
-
-&lt;p&gt;可测试性 &lt;code class=&quot;highlighter-rouge&quot;&gt;Testable&lt;/code&gt; – 一个用户故事要是可以测试的，以便于确认它是可以完成的。如果一个用户故事不能够测试，那么你就无法知道它什么时候可以完成。一个不可测试的用户故事例子：软件应该是易于使用的。&lt;/p&gt;
-
-&lt;h3 id=&quot;一些经验&quot;&gt;一些经验&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;永远不要在 User Story 中使用 &lt;code class=&quot;highlighter-rouge&quot;&gt;And&lt;/code&gt; 和 &lt;code class=&quot;highlighter-rouge&quot;&gt;Or&lt;/code&gt;，因为这是些分支词就表示分支任务，把它们拆成两个 Story.&lt;/li&gt;
-  &lt;li&gt;数据整理：通常情况下1个 sprint(2周一次迭代) 可以做 4～5 个 Story，极端大的 Story 不可大于1个 sprint。&lt;/li&gt;
-  &lt;li&gt;数据整理：通常情况下1个 sprint(2周一次迭代) 可以做 50 个左右的 &lt;code class=&quot;highlighter-rouge&quot;&gt;Task&lt;/code&gt;。&lt;/li&gt;
-  &lt;li&gt;User Story 用于描述用户故事，不要包括任何的技术，框架等内容。&lt;code class=&quot;highlighter-rouge&quot;&gt;Task&lt;/code&gt; 可以包括框架，技术等内容。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;用户故事的划分&quot;&gt;用户故事的划分&lt;/h2&gt;
-
-&lt;h3 id=&quot;怎样划分用户故事&quot;&gt;怎样划分用户故事？&lt;/h3&gt;
-
-&lt;p&gt;主要是要从客户角度对用户故事进行划分，具体可以：&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;按照不同操作 – 添加、删除、修改、浏览等&lt;/li&gt;
-  &lt;li&gt;按照数据 – 可以浏览产品名和介绍、可以浏览产品价格&lt;/li&gt;
-  &lt;li&gt;按照特性 – 易用性、性能、兼容性、并发性等等按照角色 – 从不同用户角度&lt;/li&gt;
-  &lt;li&gt;按照投入的人力 – 比如要完成信用卡支付(Visa, Master, AmericanExperess)，可以分成三个故事来实现&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h3 id=&quot;为什么用户故事越小越好&quot;&gt;为什么用户故事越小越好&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;减少等待 – 下游的成员不必要等待过长的时间，小用户故事在系统内的流转会更快&lt;/li&gt;
-  &lt;li&gt;加快反馈 – 每一个小功能的完成都是一个反馈点，可以及时沟通信息。&lt;/li&gt;
-  &lt;li&gt;减少缺陷 – 沟通更加及时，有问题可以及时发现，立刻解决，而不需要过长时间的等待。&lt;/li&gt;
-  &lt;li&gt;更好的衡量进度 – 可以工作的软件能够更好、更真实地反映项目进度状况。&lt;/li&gt;
-  &lt;li&gt;人天生只能关注很小部分 – 精力和智力所限。&lt;/li&gt;
-  &lt;li&gt;较少的投入获得较早的回报 – 这样可以尽早的达到成本与收入的平衡点。&lt;/li&gt;
-  &lt;li&gt;风险小 – 小的功能投入的资源较少。&lt;/li&gt;
-  &lt;li&gt;更容易分优先级 – 大块用户故事中难免还有优先级较低的小用户故事，通过细分，可以真正关注高优先级的用户故事。&lt;/li&gt;
-  &lt;li&gt;更容易让每个人接触不同的用户故事 – 用户故事变小，也会更简单，因此很容易让不同人同时去完成。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;user-story的分析与设计&quot;&gt;User Story的分析与设计&lt;/h2&gt;
-
-&lt;p&gt;为了降低成员之间的学习成本，对于 Story 分析的格式和叙事风格应当形成统一的认识和理解，并在项目进行当中随时修正，始终保证文档的可用性。&lt;/p&gt;
-
-&lt;h3 id=&quot;user-story-分析的内容&quot;&gt;User Story 分析的内容&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;站在使用者的角度，从功能层面说明 User Story 的特性和能力，比如用户做一些操作，产品会有什么样的反馈。&lt;/li&gt;
-  &lt;li&gt;站在开发者的角度，从实现层面说明为了实现前述能力，产品内部需要做哪些调整，针对不同的操作要实现怎样的处理流程。&lt;/li&gt;
-  &lt;li&gt;作为记事本，记录 User Story 分析过程中的疑问和问题，用于和用户、团队的其他成员交流，同时方便后续团队成员查看和学习。&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h3 id=&quot;user-story-分析怎么去做&quot;&gt;User Story 分析怎么去做&lt;/h3&gt;
-
-&lt;ol&gt;
-  &lt;li&gt;由外及内，站在客户角度观察特性，分析出特性提供给客户的各项能力，描述出客户的使用场景和使用顺序，判定出客户的正常行为以及异常行为&lt;/li&gt;
-  &lt;li&gt;由内及外，站在系统内部，分析出参与特性实现的相关模块，确定修改范围&lt;/li&gt;
-  &lt;li&gt;确定上述两点后，理清系统边界，确定本 Story 的交付范围和质量要求，以及依赖的资源&lt;/li&gt;
-  &lt;li&gt;识别出隐性要求，比如性能需求，要求多长时间内必须响应，或者每秒处理用户的多少次操作，或者满足多少用户同时在线操作；比如可靠性需求，识别出用户的异常行为，避免系统承受一定的攻击行为，避免系统崩溃&lt;/li&gt;
-  &lt;li&gt;思维清晰，很有条理，文字比较简单，意义明确，没有歧义，阅读起来很方便&lt;/li&gt;
-&lt;/ol&gt;
-
-&lt;h2 id=&quot;商务分析师&quot;&gt;商务分析师&lt;/h2&gt;
-
-&lt;p&gt;商务分析师最重要的职责就是与客户交谈，了解和分析需求，将其制作成用户故事并将需求转述给程序员。同时，商务分析师也要代替客户负责功能验收测试。&lt;/p&gt;
-
-&lt;p&gt;敏捷思想的核心是人与交流。需求问题实际上是一个交流问题。商务分析师要和客户交流，搞清楚客户到底需要什么，到底为什么需要这些东西。商业价值是商务分析师关注的最终目标。有了目标的指向，就可以不迷失方向。和客户进行交流，最终目的就是挖掘出客户的商业目标。可能大家会经常有这样的经验，客户说，我要这个功能，我想要怎么怎么样。这时候要特别注意，他说的这些东西并不是真正的需求。商务分析师需要详细的问客户为什么，挖掘出他真正的目标。&lt;/p&gt;
-
-&lt;p&gt;在这个目标下，商务分析师开始进行需求的分析：我们到底是否真的需要这个需求？有没有更好的解决方案？有没有简单并且低廉的方式？换一种形式是不是也能达到这样的需求？这个需求有多少地方涉及到以前的软件变更？&lt;/p&gt;
-
-&lt;h2 id=&quot;参考&quot;&gt;参考&lt;/h2&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;&lt;a href=&quot;http://www.scrumcn.com/agile/scrum/4818.html&quot;&gt;用户故事的划分&lt;/a&gt;&lt;/li&gt;
-&lt;/ul&gt;
-</description>
-        <pubDate>Fri, 02 Jun 2017 11:30:00 +0000</pubDate>
-        <link>http://the-wang.github.io/other/user-story/</link>
-        <guid isPermaLink="true">http://the-wang.github.io/other/user-story/</guid>
-        
-        <category>scrum</category>
-        
-        
-        <category>other</category>
         
       </item>
     

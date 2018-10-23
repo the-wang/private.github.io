@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+    <title>执着的路-that-wang - 乐观锁与悲观锁</title>
+    <meta name="description" content="">
+
+    <link rel="stylesheet" href="/assets/css/bootstrap.css">
+    <link rel="stylesheet" href="/assets/css/animate.css">
+    <link rel="stylesheet" href="/assets/css/font-awesome.min.css">
+    <link rel="stylesheet" href="/assets/css/font.css">
+    <link rel="stylesheet" href="/assets/css/landing.css">
+    <link rel="stylesheet" href="/assets/css/app.css">
+    <link rel="stylesheet" href="/assets/css/highlight.css">
+    <link rel="stylesheet" href="/assets/css/custom.css">
+
+    <link rel="canonical" href="http://the-wang.github.io/db/%E4%B9%90%E8%A7%82%E9%94%81%E4%B8%8E%E6%82%B2%E8%A7%82%E9%94%81/">
+</head>
+
+  <body>
+  <header id="header" class="navbar navbar-fixed-top bg-white box-shadow b-b b-light"  data-spy="affix" data-offset-top="1">
+  <div class="container">
+    <div class="navbar-header">
+      <a href="/" class="navbar-brand"><img src="/assets/images/logo.png" class="m-r-sm"><span class="text-muted">Notebook</span></a>
+      <button class="btn btn-link visible-xs" type="button" data-toggle="collapse" data-target=".navbar-collapse">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse">
+      <ul class="nav navbar-nav navbar-right">
+        <li><a href="/">Home</a></li>
+        <li><a href="/tags/">Tags</a></li>
+        <li><a href="/feed.xml">RSS</a></li>
+      </ul>
+    </div>
+  </div>
+</header>
+
+  <section id="content">
+    <div class="container m-t-lg m-b-lg">
+      <div class="row">
+        <div class="col-sm-12">
+          <div class="blog-post">
+          <!-- Begin Post -->
+            <div class="post-item">
+              <div class="caption wrapper-lg">
+                <h2 class="post-title">乐观锁与悲观锁</h2>
+                <div class="progress progress-xxs m-t-sm">
+                  <div class="progress-bar progress-bar-success" data-toggle="tooltip" style="width: 100%"></div>
+                </div>
+                <div class="post-sum">
+                  <ul>
+  <li>乐观锁：当我需要操作目标资源时，<strong>乐观</strong>的认为目标资源没有别人竞争，所以会直接操作，不需要提前占有该资源</li>
+  <li>
+    <p>悲观锁：当我需要操作目标资源时，为了防止别人的操作冲突，<strong>先占有</strong>目标资源后再操作</p>
+  </li>
+  <li>乐观锁通常用版本机制（version字段或者updatetime）去操作对象，如果发现没有符合版本的目标资源，则可以进行重试（查新版本，用新版本更新）</li>
+</ul>
+
+                </div>
+
+                <section class="panel panel-default">
+                  <div class="panel-body">
+                    <a href="https://github.com/the-wang" class="thumb pull-right m-l">
+                      <img src="/assets/images/avatar.jpg" class="img-circle">
+                    </a>
+                    <div class="clear">
+                      <p>
+                        <small class="block text-muted">
+                          如果觉得我的文章对您有用，请在支付宝公益平台找个项目捐点钱。
+
+                          <a href="https://github.com/the-wang" class="text-info">@汪小宝 <i class="icon-twitter"></i></a>
+
+                          <i class="fa fa-clock-o icon-muted"></i> Aug 22, 2017
+
+                          
+                        </small>
+                      </p>
+                      <a href="https://love.alipay.com/donate/index.htm" class="btn btn-s-md btn-success btn-rounded">奉献爱心</a>
+                    </div>
+                  </div>
+                </section>
+              </div>
+            </div>
+          <!-- End Post -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  </body>
+</html>
